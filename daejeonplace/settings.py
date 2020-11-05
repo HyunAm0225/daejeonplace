@@ -18,15 +18,15 @@ from django.core.exceptions import ImproperlyConfigured
 from pathlib import Path
 
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 print(BASE_DIR)
-secret_file = os.path.join(BASE_DIR,'secrets.json')
+secret_file = os.path.join(BASE_DIR, 'secrets.json')
 
-### 파이썬 비밀코드 관리
+# 파이썬 비밀코드 관리
 with open(secret_file) as f:
     secrets = json.loads(f.read())
+
 
 def get_secret(setting, secrets=secrets):
     try:
@@ -38,8 +38,9 @@ def get_secret(setting, secrets=secrets):
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY =get_secret("SECRET_KEY")
+SECRET_KEY = get_secret("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -75,7 +76,7 @@ ROOT_URLCONF = 'daejeonplace.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -139,4 +140,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIR = [os.path.join(BASE_DIR,'static')]
+STATICFILES_DIR = [os.path.join(BASE_DIR, 'static')]
+
+AUTH_USER_MODEL = 'user.User'
