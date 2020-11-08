@@ -1,18 +1,21 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
+from .views import CurrentUserView, ChangePasswordView
 
 from . import views
 from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework_jwt.views import refresh_jwt_token
 from rest_framework_jwt.views import verify_jwt_token
 
+router = routers.DefaultRouter()
+
 app_name = 'user'
 
 urlpatterns = [
     path('signup/', views.SignupView.as_view(), name='signup'),
-    path('current/', views.CurrentUserView.as_view(), name='info'),
-    path('update/', views.UpdateName.as_view(), name='update_name'),
-    path('pwchange/', views.UpdatePassword.as_view(), name='change_pw'),
-
+    path('<user_id>/profile/', views.CurrentUserView.as_view(), name='info'),
+    path('<int:pk>/profile/pw', views.ChangePasswordView.as_view(), name='pwchange'),
+    path('', include(router.urls)),
     path('token/', obtain_jwt_token),
     path('token/refresh', refresh_jwt_token),
     path('token/verify', verify_jwt_token),
