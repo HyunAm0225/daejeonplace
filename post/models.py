@@ -6,7 +6,7 @@ from user.models import User
 
 
 class Place(models.Model):
-    name = models.CharField('장소명', max_length=50, null=True)
+    name = models.CharField('장소명', max_length=50)
     latitude = models.FloatField(
         '위도', validators=[MinValueValidator(-90), MaxValueValidator(90)], null=True)
     longitude = models.FloatField(

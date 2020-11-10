@@ -21,7 +21,7 @@ from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-print(BASE_DIR)
+# print(BASE_DIR)
 secret_file = os.path.join(BASE_DIR, 'secrets.json')
 
 # 파이썬 비밀코드 관리
