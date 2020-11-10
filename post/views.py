@@ -9,6 +9,7 @@ from django.core.exceptions import ImproperlyConfigured
 import json
 import os
 import requests
+import time
 # # Create your views here.
 BASE_DIR = Path(__file__).resolve().parent.parent
 secret_file = os.path.join(BASE_DIR, 'secrets.json')
@@ -19,13 +20,18 @@ with open(secret_file) as f:
 
 
 def address_to_latlon(address):
-    url = "https://dapi.kakao.com/v2/local/search/address.json?query=" + address
+    url = 'https://dapi.kakao.com/v2/local/search/keyword.json?query={}'.format(
+        address)
     headers = {
         "Authorization": f"KakaoAK {KAKAO_KEY}"
     }
     result = requests.get(url, headers=headers).json()['documents']
+    # print(result)
+    # json_obj = result.json()
     for document in result:
-        val = [document['address_name'], document['x'], document['y']]
+        val = [
+            document['address_name'], document['x'], document['y']]
+    # val = [result['address_name'], result['x'], result['y']]
     return val
 
 
