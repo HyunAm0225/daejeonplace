@@ -6,13 +6,13 @@ from user.models import User
 
 
 class Place(models.Model):
-    name = models.CharField('장소명', max_length=50)
+    name = models.CharField('장소명', max_length=50, null=True)
     latitude = models.FloatField(
-        '위도', validators=[MinValueValidator(-90), MaxValueValidator(90)])
+        '위도', validators=[MinValueValidator(-90), MaxValueValidator(90)], null=True)
     longitude = models.FloatField(
-        '경도', validators=[MinValueValidator(-180), MaxValueValidator(180)])
-    address = models.CharField('주소', max_length=100)
-    description = models.TextField('설명', blank=True)
+        '경도', validators=[MinValueValidator(-180), MaxValueValidator(180)], null=True)
+    address = models.CharField('주소', max_length=100, null=True)
+    description = models.TextField('설명', blank=True, null=True)
 
     def avg_rating(self):
         sum = 0
@@ -26,10 +26,10 @@ class Place(models.Model):
 
 
 class Review(models.Model):
-    place = models.ForeignKey(Place, on_delete=models.CASCADE)
-    comment = models.CharField('한줄 평', max_length=200)
+    place = models.ForeignKey(Place, on_delete=models.CASCADE, null=True)
+    comment = models.CharField('한줄 평', max_length=200, null=True)
     stars = models.FloatField(
-        '평점', validators=[MinValueValidator(1), MaxValueValidator(5)])
+        '평점', validators=[MinValueValidator(1), MaxValueValidator(5)], null=True)
     writer = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='작성자', blank=True, null=True)
     registered_date = models.DateTimeField(
