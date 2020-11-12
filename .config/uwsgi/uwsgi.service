@@ -3,7 +3,7 @@ Description=uWSGI service
 After=syslog.target
 
 [Service]
-ExecStart=~/miniconda3/envs/myvenv/bin/uwsgi -i ~/daejeonplace/.config/uwsgi/daejeonplace.ini
+ExecStart=/home/ubuntu/miniconda3/envs/myvenv/bin/uwsgi -i /home/ubuntu/daejeonplace/.config/uwsgi/daejeonplace.ini
 
 Restart=always
 KillSignal=SIGQUIT
