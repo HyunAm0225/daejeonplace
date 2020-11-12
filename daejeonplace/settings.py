@@ -116,10 +116,20 @@ WSGI_APPLICATION = 'daejeonplace.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': get_secret("HOST_KEY"),
+        'PORT': '5432',
+        'NAME': get_secret("DB_NAME"),
+        'USER': get_secret("USER_NAME"),
+        'PASSWORD': get_secret("USER_PW"),
     }
 }
 
