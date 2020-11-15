@@ -11,6 +11,8 @@ class Place(models.Model):
         '위도', validators=[MinValueValidator(-90), MaxValueValidator(90)], null=True)
     longitude = models.FloatField(
         '경도', validators=[MinValueValidator(-180), MaxValueValidator(180)], null=True)
+    writer = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='작성자', blank=True, null=True)
     address = models.CharField('주소', max_length=100, null=True)
     description = models.TextField('설명', blank=True, null=True)
 
@@ -24,6 +26,9 @@ class Place(models.Model):
         else:
             return 0
 
+    def __str__(self):
+        return self.name
+
 
 class Review(models.Model):
     place = models.ForeignKey(Place, on_delete=models.CASCADE, null=True)
@@ -34,3 +39,6 @@ class Review(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='작성자', blank=True, null=True)
     registered_date = models.DateTimeField(
         auto_now_add=True, verbose_name='등록시간')
+
+    def __srt__(self):
+        return self.place.name

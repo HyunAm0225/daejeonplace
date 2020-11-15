@@ -5,10 +5,10 @@ from .models import Place, Review
 
 
 @admin.register(Place)
-class UserAdmin(admin.ModelAdmin):
+class PlaceAdmin(admin.ModelAdmin):
     pass
 
 
 @admin.register(Review)
-class UserAdmin(admin.ModelAdmin):
-    pass
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('place', 'writer', 'comment', 'stars',)

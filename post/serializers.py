@@ -48,22 +48,32 @@ KAKAO_KEY = get_secret("rest_api_key")
 
 
 class PlaceSerializer(serializers.ModelSerializer):
+    writer = serializers.ReadOnlyField(source='writer.username')
+
     class Meta:
         model = Place
-        fields = ('id', 'name', 'description', 'address',)
+        fields = ('id', 'name', 'description', 'address', 'writer')
         # fields = '__all__'
 
     def create(self, validated_data):
+        validated_data['writer'] = self.context['request'].user
         find_address_result = address_to_latlon(
             validated_data['name'], validated_data['address'])
-        place = Place.objects.create(name=validated_data['name'], description=validated_data['description'],
+        place = Place.objects.create(writer=validated_data['writer'], name=validated_data['name'], description=validated_data['description'],
                                      address=find_address_result[0], latitude=find_address_result[1], longitude=find_address_result[2])
         place.save()
         return place
 
 
 class ReviewSerializer(serializers.ModelSerializer):
+    writer = serializers.ReadOnlyField(source='writer.username')
+    # place_name = serializers.RelatedField(source='Place', read_only=True)
+
     class Meta:
         model = Review
-        fields = ('id', 'comment', 'stars', 'writer', 'place',)
+        fields = ('id', 'place', 'writer', 'stars', 'comment',)
         # fields = '__all__'
+
+    def create(self, validated_data):
+        validated_data['writer'] = self.context['request'].user
+        return super(ReviewSerializer, self).create(validated_data)
