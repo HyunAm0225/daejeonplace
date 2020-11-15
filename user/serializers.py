@@ -7,7 +7,8 @@ User = get_user_model()
 
 
 class SignupSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField(
+        write_only=True, style={'input_type': 'password', 'placeholder': 'Password'})
 
     class Meta:
         model = User
@@ -23,9 +24,11 @@ class SignupSerializer(serializers.ModelSerializer):
 
 class ChangePasswordSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
-        write_only=True, required=True, validators=[validate_password])
-    password2 = serializers.CharField(write_only=True, required=True)
-    old_password = serializers.CharField(write_only=True, required=True)
+        write_only=True, required=True, validators=[validate_password], style={'input_type': 'password', 'placeholder': 'Password'})
+    password2 = serializers.CharField(write_only=True, required=True, style={
+                                      'input_type': 'password', 'placeholder': 'Password'})
+    old_password = serializers.CharField(write_only=True, required=True, style={
+                                         'input_type': 'password', 'placeholder': 'Password'})
 
     class Meta:
         model = User

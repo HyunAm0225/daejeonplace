@@ -17,19 +17,22 @@ with open(secret_file) as f:
     secrets = json.loads(f.read())
 
 
-def address_to_latlon(address):
+def address_to_latlon(place, addr):
     url = 'https://dapi.kakao.com/v2/local/search/keyword.json?query={}'.format(
-        address)
+        place)
     headers = {
         "Authorization": f"KakaoAK {KAKAO_KEY}"
     }
-    result = requests.get(url, headers=headers).json()['documents']
-    # print(result)
-    # json_obj = result.json()
-    for document in result:
-        val = [
-            document['address_name'], document['x'], document['y']]
-    # val = [result['address_name'], result['x'], result['y']]
+    no_val = {}
+    try:
+        result = requests.get(url, headers=headers).json()['documents'][0]
+        val = [result['address_name'], result['y'], result['x']]
+    except:
+        no_val['address_name'] = addr
+        url = 'https://dapi.kakao.com/v2/local/search/keyword.json?query={}'.format(
+            addr)
+        result = requests.get(url, headers=headers).json()['documents'][0]
+        val = [no_val['address_name'], result['y'], result['x']]
     return val
 
 
@@ -51,7 +54,8 @@ class PlaceSerializer(serializers.ModelSerializer):
         # fields = '__all__'
 
     def create(self, validated_data):
-        find_address_result = address_to_latlon(validated_data['name'])
+        find_address_result = address_to_latlon(
+            validated_data['name'], validated_data['address'])
         place = Place.objects.create(name=validated_data['name'], description=validated_data['description'],
                                      address=find_address_result[0], latitude=find_address_result[1], longitude=find_address_result[2])
         place.save()
