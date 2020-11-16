@@ -52,7 +52,8 @@ class PlaceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Place
-        fields = ('id', 'name', 'description', 'address', 'writer')
+        fields = ('id', 'name', 'description', 'address',
+                  'writer', 'no_of_rating', 'avg_rating')
         # fields = '__all__'
 
     def create(self, validated_data):

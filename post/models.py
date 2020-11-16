@@ -18,13 +18,17 @@ class Place(models.Model):
 
     def avg_rating(self):
         sum = 0
-        ratings = Review.object.filter(place=self)
+        ratings = Review.objects.filter(place=self)
         for rating in ratings:
             sum += rating.stars
         if len(ratings) > 0:
             return sum / len(ratings)
         else:
             return 0
+
+    def no_of_rating(self):
+        ratings = Review.objects.filter(place=self)
+        return len(ratings)
 
     def __str__(self):
         return self.name
