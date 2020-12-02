@@ -44,5 +44,5 @@ class Review(models.Model):
     registered_date = models.DateTimeField(
         auto_now_add=True, verbose_name='등록시간')
 
-    def __srt__(self):
-        return self.place.name
+    # def __srt__(self):
+    #     return self.place.name
